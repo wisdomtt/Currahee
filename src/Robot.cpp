@@ -11,6 +11,7 @@
 #include "Encoder.h"
 #include "I2C.h"
 #include "Values.h"
+#include "DoubleSolenoid.h"
 using namespace frc;
 using namespace std;
 class Robot: public frc::SampleRobot
@@ -168,7 +169,7 @@ public:
 			{
 				Shooter->Set(0.0);
 			}
-			if(gamepad->GetRawButton(X))
+			if(gamepad->GetRawButton(4))
 			{
 				Intake->Set(1.0);
 			}
@@ -183,6 +184,16 @@ public:
 			else
 			{
 				Winch->Set(0.0);
+			}
+			if(gamepad->GetRawButton(X))
+			{
+				Pistons[0]->Set(DoubleSolenoid::kForward);
+				Pistons[1]->Set(DoubleSolenoid::kForward);
+			}
+			else
+			{
+				Pistons[0]->Set(DoubleSolenoid::kReverse);
+				Pistons[1]->Set(DoubleSolenoid::kReverse);
 			}
 			frc::Wait(0.005);
 		}
