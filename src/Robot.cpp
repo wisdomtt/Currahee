@@ -21,6 +21,9 @@ class Robot: public frc::SampleRobot
 	Spark* Shooter;
 	Joystick* stick[2]; // only joystick
 	Joystick* gamepad;
+	Spark* Winch;
+	Spark* Intake;
+	DoubleSolenoid* Pistons[3];
 	frc::SendableChooser<std::string> chooser;
 
 public:
@@ -37,6 +40,11 @@ public:
 		stick[LEFT] = new Joystick(1);
 		stick[RIGHT] = new Joystick(2);
 		gamepad = new Joystick(3);
+		Winch = new Spark(7);
+		Intake = new Spark(8);
+		Pistons[0] = new DoubleSolenoid(6,1);
+		Pistons[1] = new DoubleSolenoid(5,1);
+		Pistons[2] = new DoubleSolenoid(4,2);
 	}
 	void Default(){
 		//The Moses Classic
@@ -152,7 +160,7 @@ public:
 				SpeedConstant = 1.0;
 			}
 			//Shooter Button
-			if(gamepad->GetRawButton(4))
+			if(gamepad->GetRawButton(A))//A
 			{
 				Shooter->Set(1.0);
 			}
@@ -160,7 +168,22 @@ public:
 			{
 				Shooter->Set(0.0);
 			}
-
+			if(gamepad->GetRawButton(X))
+			{
+				Intake->Set(1.0);
+			}
+			else
+			{
+				Intake->Set(0.0);
+			}
+			if(gamepad->GetRawButton(B))
+			{
+				Winch->Set(1.0);
+			}
+			else
+			{
+				Winch->Set(0.0);
+			}
 			frc::Wait(0.005);
 		}
 
