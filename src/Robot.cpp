@@ -22,23 +22,11 @@ class Robot: public frc::SampleRobot
 	Joystick* stick[2]; // only joystick
 	Joystick* gamepad;
 	frc::SendableChooser<std::string> chooser;
-	float SpeedConstant = 1.0;
-	const std::string autoNameDefault = "Default";
-	const std::string autoNameLeftPeg = "Left Peg";
-	const std::string autoNameRightPeg = "Right Peg";
-	const std::string autoNameMiddlePeg = "Middle Peg";
-	bool SpeedControlA = false;
-	bool SpeedControlB = false;
-	bool SpeedControlC = false;
-
-
 
 public:
 	Robot() {
-
-
 		//REVIEW GYRO AND ENCODER PORTS
-		Gyro = new ADXRS450_Gyro(SPI::kMXP);
+		Gyro = new ADXRS450_Gyro(SPI::Port::kOnboardCS0);
 		dbEncoders[LEFT] = new Encoder(1,2);
 		dbEncoders[RIGHT] = new Encoder(3,4);
 		Motors[0] = new Spark(0);
