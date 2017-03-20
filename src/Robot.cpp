@@ -39,6 +39,7 @@ class Robot: public frc::SampleRobot
 public:
 	Robot() {
 
+
 		//REVIEW GYRO AND ENCODER PORTS
 		Gyro = new ADXRS450_Gyro(SPI::kMXP);
 		dbEncoders[LEFT] = new Encoder(1,2);
@@ -51,7 +52,6 @@ public:
 		stick[LEFT] = new Joystick(1);
 		stick[RIGHT] = new Joystick(2);
 		gamepad = new Joystick(3);
-		AutonScheduler = new Auton(Gyro, dbEncoders[2], Motors[4], Shooter);
 	}
 
 	void RobotInit()

@@ -3,6 +3,7 @@
 #include "WPILib.h"
 #include "Math.h"
 #include "Values.h"
+using namespace frc;
 class Auton{
 	public:
 		ADXRS450_Gyro* pGyro;
