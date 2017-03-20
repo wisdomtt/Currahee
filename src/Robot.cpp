@@ -11,13 +11,10 @@
 #include "Encoder.h"
 #include "I2C.h"
 #include "Values.h"
-#include "Autons/Auton.h"
-#include "TeleopCommands/TeleopCommands.h"
 using namespace frc;
 using namespace std;
 class Robot: public frc::SampleRobot
 {
-	Auton* AutonScheduler;
 	ADXRS450_Gyro* Gyro;
 	Encoder* dbEncoders[2];
 	Spark* Motors[4];
@@ -53,6 +50,76 @@ public:
 		stick[RIGHT] = new Joystick(2);
 		gamepad = new Joystick(3);
 	}
+	void Default(){
+		//The Moses Classic
+		for(int x = 0; x<4; x++)
+					Motors[x]->Set(1.0);
+	}
+	void EncoderReset()
+		{
+			dbEncoders[LEFT]->Reset();
+			dbEncoders[RIGHT]->Reset();
+		}
+		void GyroReset()
+		{
+			Gyro->Reset();
+		}
+	void LeftPeg(){
+		for(int x = 0; x<4; x++)
+				Motors[x]->Set(1.0);
+
+		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
+
+		for(int x = 0; x<2; x++)
+					Motors[x]->Set(0.45);
+		for(int x = 2; x<4; x++)
+						Motors[x]->Set(-0.45);
+		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
+		while (fabs(Gyro->GetAngle()) < 60){}
+
+		for(int x = 0; x<4; x++)
+					Motors[x]->Set(1.0);
+
+		while(dbEncoders[0]->GetDistance()/3 <= 60){}
+
+		for(int x = 0; x<4; x++)
+						Motors[x]->Set(0.0);
+	}
+	void RightPeg(){
+
+		for(int x = 0; x<4; x++)
+				Motors[x]->Set(1.0);
+
+		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
+
+		for(int x = 0; x<2; x++)
+					Motors[x]->Set(-0.45);
+		for(int x = 2; x<4; x++)
+						Motors[x]->Set(0.45);
+		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
+		while (fabs(Gyro->GetAngle()) < 60){}
+
+		for(int x = 0; x<4; x++)
+					Motors[x]->Set(1.0);
+
+		while(dbEncoders[0]->GetDistance()/3 <= 60){}
+
+		for(int x = 0; x<4; x++)
+						Motors[x]->Set(0.0);
+	}
+	void MiddlePeg()
+	{
+		EncoderReset();
+		GyroReset();
+
+		for(int x = 0; x<4; x++)
+				Motors[x]->Set(1.0);
+
+		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
+
+		for(int x = 0; x<4; x++)
+				Motors[x]->Set(0.0);
+	}
 
 	void RobotInit()
 	{
@@ -72,13 +139,12 @@ public:
 	void Autonomous()
 	{
 		auto autoSelected = chooser.GetSelected();
-		if(autoSelected == autoNameLeftPeg){AutonScheduler->LeftPeg();}
-		else if(autoSelected == autoNameRightPeg){AutonScheduler->RightPeg();}
-		else if(autoSelected == autoNameMiddlePeg){AutonScheduler->MiddlePeg();}
-		else{AutonScheduler->Default();}
+		if(autoSelected == autoNameLeftPeg){this->LeftPeg();}
+		else if(autoSelected == autoNameRightPeg){this->RightPeg();}
+		else if(autoSelected == autoNameMiddlePeg){this->MiddlePeg();}
+		else{this->Default();}
 
 		//Kill it with fire
-		delete AutonScheduler;
 	}
 
 	void OperatorControl() override
@@ -89,14 +155,14 @@ public:
 			Motors[1]->Set(stick[LEFT]->GetY()*SpeedConstant);
 			Motors[2]->Set(stick[RIGHT]->GetY()*SpeedConstant);
 			Motors[3]->Set(stick[RIGHT]->GetY()*SpeedConstant);
-
-			//PROPER INCREMENTAL ALGORITHM UPON TRIGGER RELEASE RIGHT JOYSTICK
-
-			//PROPER INCREMENTAL ALGORITHM UPON TRIGGER RELEASE LEFT JOYSTICK
-
-
-
-
+			if(stick[LEFT]->GetRawButton(0)&&stick[RIGHT]->GetRawButton(0))
+			{
+				SpeedConstant = 0.45;
+			}
+			else
+			{
+				SpeedConstant = 1.0;
+			}
 			//Shooter Button
 			if(gamepad->GetRawButton(4))
 			{
