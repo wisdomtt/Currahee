@@ -94,61 +94,81 @@ public:
 	}
 	void LeftPeg(){
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(1.0);
+		Motors[0]->Set(1.0);
+		Motors[1]->Set(1.0);
+		Motors[2]->Set(1.0);
+		Motors[3]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
 
-		for(int x = 0; x<2; x++)
-			Motors[x]->Set(0.45);
+		Motors[0]->Set(0.45);
+		Motors[1]->Set(0.45);
 
-		for(int x = 2; x<4; x++)
-			Motors[x]->Set(-0.45);
+		Motors[2]->Set(-0.45);
+		Motors[3]->Set(-0.45);
 		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
 		while (fabs(Gyro->GetAngle()) < 60){}
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(1.0);
+		Motors[0]->Set(1.0);
+		Motors[1]->Set(1.0);
+		Motors[2]->Set(1.0);
+		Motors[3]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 60){}
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(0.0);
+		Motors[0]->Set(0.0);
+		Motors[1]->Set(0.0);
+		Motors[2]->Set(0.0);
+		Motors[3]->Set(0.0);
 	}
 	void RightPeg(){
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(1.0);
+		Motors[0]->Set(1.0);
+		Motors[1]->Set(1.0);
+		Motors[2]->Set(1.0);
+		Motors[3]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
 
-		for(int x = 0; x<2; x++)
-			Motors[x]->Set(-0.45);
-		for(int x = 2; x<4; x++)
-			Motors[x]->Set(0.45);
+		Motors[0]->Set(-0.45);
+		Motors[1]->Set(-0.45);
+
+		Motors[2]->Set(0.45);
+		Motors[3]->Set(0.45);
 		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
 		while (fabs(Gyro->GetAngle()) < 60){}
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(1.0);
+		Motors[0]->Set(1.0);
+		Motors[1]->Set(1.0);
+		Motors[2]->Set(1.0);
+		Motors[3]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 60){}
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(0.0);
+		Motors[0]->Set(0.0);
+		Motors[1]->Set(0.0);
+		Motors[2]->Set(0.0);
+		Motors[3]->Set(0.0);
+
 	}
 	void MiddlePeg()
 	{
 		EncoderReset();
 		GyroReset();
+		Motors[0]->Set(1.0);
+		Motors[1]->Set(1.0);
+		Motors[2]->Set(1.0);
+		Motors[3]->Set(1.0);
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(1.0);
-
+//		for(int x = 0; x<4; x++)
+//			Motors[x]->Set(1.0);
+//
 		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
 
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(0.0);
+		Motors[0]->Set(0.0);
+		Motors[1]->Set(0.0);
+		Motors[2]->Set(0.0);
+		Motors[3]->Set(0.0);
 	}
 
 	void RobotInit()
