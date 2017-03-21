@@ -12,6 +12,7 @@
 #include "I2C.h"
 #include "Values.h"
 #include "DoubleSolenoid.h"
+#include "CV/GripPipeline.h"
 using namespace frc;
 using namespace std;
 class Robot: public frc::SampleRobot
@@ -48,10 +49,38 @@ public:
 		Pistons[1] = new DoubleSolenoid(5,1);
 		Pistons[2] = new DoubleSolenoid(4,2);
 	}
+	static void VisionThread()
+	{
+		// Get the USB camera from CameraServer
+				cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+				// Set the resolution
+				camera.SetResolution(640, 480);
+
+				// Get a CvSink. This will capture Mats from the Camera
+				cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+				// Setup a CvSource. This will send images back to the Dashboard
+				cs::CvSource outputStream = CameraServer::GetInstance()->
+						PutVideo("Rectangle", 640, 480);
+
+				// Mats are very memory expensive. Lets reuse this Mat.
+				cv::Mat mat;
+
+				cvSink.GrabFrame(mat);
+
+				grip::GripPipeline pipeline;
+				pipeline.Process(mat);
+				cv::Rect r1 = cv::boundingRect(pipeline.GetFilterContoursOutput()[0]);
+				cv::Rect r2 = cv::boundingRect(pipeline.GetFilterContoursOutput()[1]);
+				double centerX1 = r1.x + (r1.width / 2);
+				double centerX2 = r2.x + (r2.width / 2);
+				double turn = ((centerX1 + centerX2) / 2) - (640 / 2);
+
+
+	}
 	void Default(){
 		//The Moses Classic
 		for(int x = 0; x<4; x++)
-					Motors[x]->Set(1.0);
+			Motors[x]->Set(1.0);
 	}
 	void EncoderReset()
 		{
@@ -64,46 +93,46 @@ public:
 		}
 	void LeftPeg(){
 		for(int x = 0; x<4; x++)
-				Motors[x]->Set(1.0);
+			Motors[x]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
 
 		for(int x = 0; x<2; x++)
-					Motors[x]->Set(0.45);
+			Motors[x]->Set(0.45);
 		for(int x = 2; x<4; x++)
-						Motors[x]->Set(-0.45);
+			Motors[x]->Set(-0.45);
 		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
 		while (fabs(Gyro->GetAngle()) < 60){}
 
 		for(int x = 0; x<4; x++)
-					Motors[x]->Set(1.0);
+			Motors[x]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 60){}
 
 		for(int x = 0; x<4; x++)
-						Motors[x]->Set(0.0);
+			Motors[x]->Set(0.0);
 	}
 	void RightPeg(){
 
 		for(int x = 0; x<4; x++)
-				Motors[x]->Set(1.0);
+			Motors[x]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
 
 		for(int x = 0; x<2; x++)
-					Motors[x]->Set(-0.45);
+			Motors[x]->Set(-0.45);
 		for(int x = 2; x<4; x++)
-						Motors[x]->Set(0.45);
+			Motors[x]->Set(0.45);
 		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
 		while (fabs(Gyro->GetAngle()) < 60){}
 
 		for(int x = 0; x<4; x++)
-					Motors[x]->Set(1.0);
+			Motors[x]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 60){}
 
 		for(int x = 0; x<4; x++)
-						Motors[x]->Set(0.0);
+			Motors[x]->Set(0.0);
 	}
 	void MiddlePeg()
 	{
@@ -111,12 +140,12 @@ public:
 		GyroReset();
 
 		for(int x = 0; x<4; x++)
-				Motors[x]->Set(1.0);
+			Motors[x]->Set(1.0);
 
 		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
 
 		for(int x = 0; x<4; x++)
-				Motors[x]->Set(0.0);
+			Motors[x]->Set(0.0);
 	}
 
 	void RobotInit()
@@ -129,9 +158,10 @@ public:
 		chooser.AddObject(autoNameLeftPeg, autoNameLeftPeg);
 		chooser.AddObject(autoNameRightPeg, autoNameRightPeg);
 		chooser.AddObject(autoNameMiddlePeg, autoNameMiddlePeg);
-
 		frc::SmartDashboard::PutData("Auto Modes", &chooser);
 
+		thread visionThread(VisionThread);
+		visionThread.detach();
 	}
 
 	void Autonomous()
