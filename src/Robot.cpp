@@ -28,6 +28,7 @@ class Robot: public frc::SampleRobot
 	frc::SendableChooser<std::string> chooser;
 
 public:
+
 	Robot() {
 		//REVIEW GYRO AND ENCODER PORTS
 		Gyro = new ADXRS450_Gyro(SPI::Port::kOnboardCS0);
