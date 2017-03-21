@@ -13,6 +13,13 @@
 #include "Values.h"
 #include "DoubleSolenoid.h"
 #include "CV/GripPipeline.h"
+#include <thread>
+#include <CameraServer.h>
+#include <IterativeRobot.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/core/types.hpp>
+
 using namespace frc;
 using namespace std;
 class Robot: public frc::SampleRobot
@@ -52,30 +59,24 @@ public:
 	static void VisionThread()
 	{
 		// Get the USB camera from CameraServer
-				cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
-				// Set the resolution
-				camera.SetResolution(640, 480);
-
-				// Get a CvSink. This will capture Mats from the Camera
-				cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
-				// Setup a CvSource. This will send images back to the Dashboard
-				cs::CvSource outputStream = CameraServer::GetInstance()->
-						PutVideo("Rectangle", 640, 480);
-
-				// Mats are very memory expensive. Lets reuse this Mat.
-				cv::Mat mat;
-
-				cvSink.GrabFrame(mat);
-
-				grip::GripPipeline pipeline;
-				pipeline.Process(mat);
-				cv::Rect r1 = cv::boundingRect(pipeline.GetFilterContoursOutput()[0]);
-				cv::Rect r2 = cv::boundingRect(pipeline.GetFilterContoursOutput()[1]);
-				double centerX1 = r1.x + (r1.width / 2);
-				double centerX2 = r2.x + (r2.width / 2);
-				double turn = ((centerX1 + centerX2) / 2) - (640 / 2);
-
-
+		cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+		// Set the resolution
+		camera.SetResolution(640, 480);
+		// Get a CvSink. This will capture Mats from the Camera
+		cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+		// Setup a CvSource. This will send images back to the Dashboard
+		cs::CvSource outputStream = CameraServer::GetInstance()->
+		PutVideo("Rectangle", 640, 480);
+		// Mats are very memory expensive. Lets reuse this Mat.
+		cv::Mat mat;
+		cvSink.GrabFrame(mat);
+		grip::GripPipeline pipeline;
+		pipeline.Process(mat);
+		cv::Rect r1 = cv::boundingRect(pipeline.GetFilterContoursOutput()[0]);
+		cv::Rect r2 = cv::boundingRect(pipeline.GetFilterContoursOutput()[1]);
+		double centerX1 = r1.x + (r1.width / 2);
+		double centerX2 = r2.x + (r2.width / 2);
+		double turn = ((centerX1 + centerX2) / 2) - (640 / 2);
 	}
 	void Default(){
 		//The Moses Classic
@@ -83,15 +84,16 @@ public:
 			Motors[x]->Set(1.0);
 	}
 	void EncoderReset()
-		{
-			dbEncoders[LEFT]->Reset();
-			dbEncoders[RIGHT]->Reset();
-		}
-		void GyroReset()
-		{
-			Gyro->Reset();
-		}
+	{
+		dbEncoders[LEFT]->Reset();
+		dbEncoders[RIGHT]->Reset();
+	}
+	void GyroReset()
+	{
+		Gyro->Reset();
+	}
 	void LeftPeg(){
+
 		for(int x = 0; x<4; x++)
 			Motors[x]->Set(1.0);
 
@@ -99,6 +101,7 @@ public:
 
 		for(int x = 0; x<2; x++)
 			Motors[x]->Set(0.45);
+
 		for(int x = 2; x<4; x++)
 			Motors[x]->Set(-0.45);
 		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
@@ -171,8 +174,6 @@ public:
 		else if(autoSelected == autoNameRightPeg){this->RightPeg();}
 		else if(autoSelected == autoNameMiddlePeg){this->MiddlePeg();}
 		else{this->Default();}
-
-		//Kill it with fire
 	}
 
 	void OperatorControl() override
@@ -192,7 +193,7 @@ public:
 				SpeedConstant = 1.0;
 			}
 			//Shooter Button
-			if(gamepad->GetRawButton(A))//A
+			if(gamepad->GetRawButton(ABUTTON))//A
 			{
 				Shooter->Set(1.0);
 			}
@@ -208,7 +209,7 @@ public:
 			{
 				Intake->Set(0.0);
 			}
-			if(gamepad->GetRawButton(B))
+			if(gamepad->GetRawButton(BBUTTON))
 			{
 				Winch->Set(1.0);
 			}
@@ -216,7 +217,7 @@ public:
 			{
 				Winch->Set(0.0);
 			}
-			if(gamepad->GetRawButton(X))
+			if(gamepad->GetRawButton(XBUTTON))
 			{
 				Pistons[0]->Set(DoubleSolenoid::kForward);
 				Pistons[1]->Set(DoubleSolenoid::kForward);
