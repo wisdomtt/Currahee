@@ -120,8 +120,9 @@ public:
 		Motors[1]->Set(1.0);
 		Motors[2]->Set(1.0);
 		Motors[3]->Set(1.0);
-
-		while(dbEncoders[0]->GetDistance()/3 <= 60){}
+		//If the wheels aren't turning, then encoders won't register
+		Wait(2.0);
+		//while(dbEncoders[0]->GetDistance()/3 <= 60){}
 
 		Motors[0]->Set(0.0);
 		Motors[1]->Set(0.0);
@@ -153,7 +154,9 @@ public:
 		Motors[2]->Set(1.0);
 		Motors[3]->Set(1.0);
 
-		while(dbEncoders[0]->GetDistance()/3 <= 60){}
+		//If the wheels aren't turning, then encoders won't register
+		Wait(2.0);
+		//while(dbEncoders[0]->GetDistance()/3 <= 60){}
 
 		Motors[0]->Set(0.0);
 		Motors[1]->Set(0.0);
