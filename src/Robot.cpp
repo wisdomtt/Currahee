@@ -33,6 +33,7 @@ class Robot: public frc::SampleRobot
 	Spark* Winch;
 	Spark* Intake;
 	DoubleSolenoid* Pistons[3];
+	int Iteration = 1;
 	frc::SendableChooser<std::string> chooser;
 
 public:
@@ -79,9 +80,18 @@ public:
 		double turn = ((centerX1 + centerX2) / 2) - (640 / 2);
 	}
 	void Default(){
-		//The Moses Classic
-		for(int x = 0; x<4; x++)
-			Motors[x]->Set(1.0);
+		Motors[0]->Set(1.0);
+		Motors[1]->Set(1.0);
+		Motors[2]->Set(1.0);
+		Motors[3]->Set(1.0);
+	}
+	void Debug()
+	{
+		cout << "Iteration: " << endl << Iteration << endl;
+		cout << "Left Encoder:" << endl << dbEncoders[LEFT]->GetDistance() << endl;
+		cout << "Right Encoder:" << endl << dbEncoders[RIGHT]->GetDistance() << endl;
+		cout << "Gyro Output:" << endl << Gyro->GetAngle() << endl;
+		Iteration++;
 	}
 	void EncoderReset()
 	{
@@ -246,6 +256,15 @@ public:
 			{
 				Pistons[0]->Set(DoubleSolenoid::kReverse);
 				Pistons[1]->Set(DoubleSolenoid::kReverse);
+			}
+			if(gamepad->GetRawButton(5))
+			{
+				ButtonRelease = true;
+			}
+			else if(!gamepad->GetRawButton(5)&&ButtonRelease)
+			{
+				this->Debug();
+				ButtonRelease = false;
 			}
 			frc::Wait(0.005);
 		}

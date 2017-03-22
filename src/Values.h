@@ -13,14 +13,14 @@
 #define ABUTTON 1
 #define XBUTTON 3
 #define BBUTTON 2
+
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameLeftPeg = "Left Peg";
 	const std::string autoNameRightPeg = "Right Peg";
 	const std::string autoNameMiddlePeg = "Middle Peg";
 	float SpeedConstant = 1.0;
-	bool SpeedControlA = false;
-	bool SpeedControlB = false;
-	bool SpeedControlC = false;
+	bool ButtonRelease = false;
+
 
 
 
