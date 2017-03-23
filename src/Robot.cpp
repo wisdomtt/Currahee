@@ -12,13 +12,13 @@
 #include "I2C.h"
 #include "Values.h"
 #include "DoubleSolenoid.h"
-#include "CV/GripPipeline.h"
-#include <thread>
+//#include "CV/GripPipeline.h"
+//#include <thread>
 #include <CameraServer.h>
 #include <IterativeRobot.h>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <opencv2/core/core.hpp>
-#include <opencv2/core/types.hpp>
+//#include <opencv2/imgproc/imgproc.hpp>
+//#include <opencv2/core/core.hpp>
+//#include <opencv2/core/types.hpp>
 
 using namespace frc;
 using namespace std;
@@ -59,23 +59,24 @@ public:
 	}
 	static void VisionThread()
 	{
-		// Get the USB camera from CameraServer
-		cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
-		// Set the resolution
-		camera.SetResolution(640, 480);
-		// Get a CvSink. This will capture Mats from the Camera
-		cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
-		// Mats are very memory expensive. Lets reuse this Mat.
-		cv::Mat mat;
-		cvSink.GrabFrame(mat);
-		grip::GripPipeline pipeline;
-		pipeline.Process(mat);
-		cv::Rect r1 = cv::boundingRect(pipeline.GetFilterContoursOutput()[0]);
-		cv::Rect r2 = cv::boundingRect(pipeline.GetFilterContoursOutput()[1]);
-		double centerX1 = r1.x + (r1.width / 2);
-		double centerX2 = r2.x + (r2.width / 2);
-		double turn = ((centerX1 + centerX2) / 2) - (640 / 2);
+//		// Get the USB camera from CameraServer
+//		cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+//		// Set the resolution
+//		camera.SetResolution(640, 480);
+//		// Get a CvSink. This will capture Mats from the Camera
+//		cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+//		// Mats are very memory expensive. Lets reuse this Mat.
+//		cv::Mat mat;
+//		cvSink.GrabFrame(mat);
+//		grip::GripPipeline pipeline;
+//		pipeline.Process(mat);
+//		cv::Rect r1 = cv::boundingRect(pipeline.GetFilterContoursOutput()[0]);
+//		cv::Rect r2 = cv::boundingRect(pipeline.GetFilterContoursOutput()[1]);
+//		double centerX1 = r1.x + (r1.width / 2);
+//		double centerX2 = r2.x + (r2.width / 2);
+//		double turn = ((centerX1 + centerX2) / 2) - (640 / 2);
 	}
+	//BOUNDING RECT BREAKS THE VISION CODE. NEEDS A FIX
 	void Default(){
 		Motors[0]->Set(1.0);
 		Motors[1]->Set(1.0);
@@ -197,8 +198,8 @@ public:
 		chooser.AddObject(autoNameMiddlePeg, autoNameMiddlePeg);
 		frc::SmartDashboard::PutData("Auto Modes", &chooser);
 
-		thread visionThread(VisionThread);
-		visionThread.detach();
+//		thread visionThread(VisionThread);
+//		visionThread.detach();
 	}
 
 	void Autonomous()
