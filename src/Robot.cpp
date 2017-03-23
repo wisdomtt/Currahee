@@ -106,7 +106,7 @@ public:
 		Motors[2]->Set(1.0);
 		Motors[3]->Set(1.0);
 
-		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
+		while(dbEncoders[0]->GetDistance()/3 <= (12*5+5.3)*(3/4)){}
 
 		Motors[0]->Set(0.45);
 		Motors[1]->Set(0.45);
@@ -130,7 +130,6 @@ public:
 		Motors[3]->Set(0.0);
 
 		Pistons[0]->Set(DoubleSolenoid::kForward);
-		Pistons[0]->Set(DoubleSolenoid::kForward);
 	}
 	void RightPeg(){
 
@@ -139,7 +138,7 @@ public:
 		Motors[2]->Set(1.0);
 		Motors[3]->Set(1.0);
 
-		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
+		while(dbEncoders[0]->GetDistance()/3 <= (12*5+5.3)*(3/4)){}
 
 		Motors[0]->Set(-0.45);
 		Motors[1]->Set(-0.45);
@@ -164,7 +163,6 @@ public:
 		Motors[3]->Set(0.0);
 
 		Pistons[0]->Set(DoubleSolenoid::kForward);
-		Pistons[1]->Set(DoubleSolenoid::kForward);
 
 	}
 	void MiddlePeg()
@@ -176,7 +174,7 @@ public:
 		Motors[2]->Set(1.0);
 		Motors[3]->Set(1.0);
 
-		while(dbEncoders[0]->GetDistance()/3 <= 12*5+5.3){}
+		while(dbEncoders[0]->GetDistance()/3 <= (12*5+5.3)*(3/4)){}
 		//ensure that the gear is on the peg
 		Wait(0.5);
 		Motors[0]->Set(0.0);
