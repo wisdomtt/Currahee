@@ -258,12 +258,12 @@ public:
 			}
 			if(gamepad->GetRawButton(XBUTTON))
 			{
-				Pistons[0]->Set(DoubleSolenoid::kForward);
+				Pistons[2]->Set(DoubleSolenoid::kForward);
 				Pistons[1]->Set(DoubleSolenoid::kForward);
 			}
 			else
 			{
-				Pistons[0]->Set(DoubleSolenoid::kReverse);
+				Pistons[2]->Set(DoubleSolenoid::kReverse);
 				Pistons[1]->Set(DoubleSolenoid::kReverse);
 			}
 			if(gamepad->GetRawButton(5))
