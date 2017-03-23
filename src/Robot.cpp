@@ -22,6 +22,7 @@
 
 using namespace frc;
 using namespace std;
+
 class Robot: public frc::SampleRobot
 {
 	ADXRS450_Gyro* Gyro;
@@ -59,22 +60,48 @@ public:
 	}
 	static void VisionThread()
 	{
-//		// Get the USB camera from CameraServer
-//		cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
-//		// Set the resolution
-//		camera.SetResolution(640, 480);
-//		// Get a CvSink. This will capture Mats from the Camera
-//		cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
-//		// Mats are very memory expensive. Lets reuse this Mat.
-//		cv::Mat mat;
-//		cvSink.GrabFrame(mat);
-//		grip::GripPipeline pipeline;
-//		pipeline.Process(mat);
+		// Get the USB camera from CameraServer
+		cs::UsbCamera camera = CameraServer::GetInstance()->StartAutomaticCapture();
+		// Set the resolution
+		camera.SetResolution(640, 480);
+		// Get a CvSink. This will capture Mats from the Camera
+		cs::CvSink cvSink = CameraServer::GetInstance()->GetVideo();
+		// Mats are very memory expensive. Lets reuse this Mat.
+		cv::Mat mat;
+		cvSink.GrabFrame(mat);
+		grip::GripPipeline pipeline;
+
+		std::vector<std::vector<cv::Point>> contours = pipeline.Process(mat);
+		//cv::Rect R1 = cv::boundingRect();
+		//cout << "LOL:" << endl << this->contourCenters(pipeline.GetFilterContoursOutput()[0]) << endl;
+		cout << "YADDA:" << endl << this->contourCenters(contours);
+//
 //		cv::Rect r1 = cv::boundingRect(pipeline.GetFilterContoursOutput()[0]);
 //		cv::Rect r2 = cv::boundingRect(pipeline.GetFilterContoursOutput()[1]);
 //		double centerX1 = r1.x + (r1.width / 2);
 //		double centerX2 = r2.x + (r2.width / 2);
 //		double turn = ((centerX1 + centerX2) / 2) - (640 / 2);
+	}
+	std::vector<cv::Point> contourCenters(std::vector<std::vector<cv::Point>> contours) {
+		std::vector<cv::Point> centers; //given a vector of contours, outputs a vector consisting of their centers
+		double totalx;
+		double totaly;
+		for(int c=0;c<contours.size();c++) {
+			centers.push_back(centerOfContour(contours[c]));
+		}
+		return centers;
+	}
+	cv::Point centerOfContour(std::vector<cv::Point> contour) {
+		int totalx=0.0; //given a contour, outputs its center
+		int totaly=0.0;
+		for(int d=0; d<contour.size();d++) {
+			totalx+=contour[d].x;
+			totaly+=contour[d].y;
+		}
+		cv::Point pt;
+		pt.x=totalx/contour.size();
+		pt.y=totaly/contour.size();
+		return pt;
 	}
 	//BOUNDING RECT BREAKS THE VISION CODE. NEEDS A FIX
 	void Default(){
