@@ -48,12 +48,12 @@ public:
 		Motors[2] = new Spark(2);
 		Motors[3] = new Spark(3);
 		Shooter = new Spark(4);
-		stick[LEFT] = new Joystick(1);
-		stick[RIGHT] = new Joystick(2);
-		gamepad = new Joystick(3);
+		stick[LEFT] = new Joystick(0);
+		stick[RIGHT] = new Joystick(1);
+		gamepad = new Joystick(2);
 		Winch = new Spark(7);
 		Intake = new Spark(8);
-		Pistons[0] = new DoubleSolenoid(6,1);
+		Pistons[0] = new DoubleSolenoid(6,0);
 		Pistons[1] = new DoubleSolenoid(5,1);
 		Pistons[2] = new DoubleSolenoid(4,2);
 	}
