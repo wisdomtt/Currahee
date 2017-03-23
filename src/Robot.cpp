@@ -72,9 +72,10 @@ public:
 		grip::GripPipeline pipeline;
 
 		std::vector<std::vector<cv::Point>> contours = pipeline.Process(mat);
+		cout << "Contours: "<< endl << contours << endl;
 		//cv::Rect R1 = cv::boundingRect();
 		//cout << "LOL:" << endl << this->contourCenters(pipeline.GetFilterContoursOutput()[0]) << endl;
-		cout << "YADDA:" << endl << this->contourCenters(contours);
+		cout << "Contour Centers Output:" << endl << this->contourCenters(contours);
 //
 //		cv::Rect r1 = cv::boundingRect(pipeline.GetFilterContoursOutput()[0]);
 //		cv::Rect r2 = cv::boundingRect(pipeline.GetFilterContoursOutput()[1]);
@@ -231,14 +232,15 @@ public:
 
 	void Autonomous()
 	{
-		while(IsAutonomous()&&IsEnabled())
-		{
-			auto autoSelected = chooser.GetSelected();
-			if(autoSelected == autoNameLeftPeg){this->LeftPeg();}
-			else if(autoSelected == autoNameRightPeg){this->RightPeg();}
-			else if(autoSelected == autoNameMiddlePeg){this->MiddlePeg();}
-			else{this->Default();}
-		}
+//		while(IsAutonomous()&&IsEnabled())
+//		{
+//			auto autoSelected = chooser.GetSelected();
+//			if(autoSelected == autoNameLeftPeg){this->LeftPeg();}
+//			else if(autoSelected == autoNameRightPeg){this->RightPeg();}
+//			else if(autoSelected == autoNameMiddlePeg){this->MiddlePeg();}
+//			else{this->Default();}
+//		}
+		this->VisionThread();
 	}
 
 	void OperatorControl() override
