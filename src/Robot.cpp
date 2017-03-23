@@ -85,8 +85,8 @@ public:
 	void Debug()
 	{
 		cout << "Iteration: " << endl << Iteration << endl;
-		cout << "Left Encoder:" << endl << dbEncoders[LEFT]->GetDistance() << endl;
-		cout << "Right Encoder:" << endl << dbEncoders[RIGHT]->GetDistance() << endl;
+		cout << "Left Encoder Inches:" << endl << dbEncoders[LEFT]->GetDistance()/3 << endl;
+		cout << "Right Encoder Inches:" << endl << dbEncoders[RIGHT]->GetDistance()/3 << endl;
 		cout << "Gyro Output:" << endl << Gyro->GetAngle() << endl;
 		Iteration++;
 	}
