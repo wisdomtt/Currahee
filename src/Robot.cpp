@@ -275,6 +275,16 @@ public:
 				this->Debug();
 				ButtonRelease = false;
 			}
+			if(gamepad->GetRawButton(6))
+			{
+				ButtonRelease2 = true;
+			}
+			else if(!gamepad->GetRawButton(6)&&ButtonRelease2)
+			{
+				this->EncoderReset();
+				this->GyroReset();
+				ButtonRelease2 = false;
+			}
 			frc::Wait(0.005);
 		}
 
