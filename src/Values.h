@@ -10,9 +10,12 @@
 #define LEFT 0
 #define RIGHT 1
 #define ENCODER_FIX 1/3
+
+
 #define ABUTTON 1
-#define XBUTTON 3
 #define BBUTTON 2
+
+#define XBUTTON 3
 
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameLeftPeg = "Left Peg";
