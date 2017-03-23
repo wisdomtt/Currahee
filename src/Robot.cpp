@@ -41,8 +41,8 @@ public:
 	Robot() {
 		//REVIEW GYRO AND ENCODER PORTS
 		Gyro = new ADXRS450_Gyro(SPI::Port::kOnboardCS0);
-		dbEncoders[LEFT] = new Encoder(1,2);
-		dbEncoders[RIGHT] = new Encoder(3,4);
+		dbEncoders[LEFT] = new Encoder(0,1);
+		dbEncoders[RIGHT] = new Encoder(2,3);
 		Motors[0] = new Spark(0);
 		Motors[1] = new Spark(1);
 		Motors[2] = new Spark(2);
