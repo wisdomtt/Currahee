@@ -219,10 +219,10 @@ public:
 	{
 
 		while (IsOperatorControl() && IsEnabled()) {
-			Motors[0]->Set(stick[LEFT]->GetY()*SpeedConstant);
-			Motors[1]->Set(stick[LEFT]->GetY()*SpeedConstant);
-			Motors[2]->Set(stick[RIGHT]->GetY()*SpeedConstant);
-			Motors[3]->Set(stick[RIGHT]->GetY()*SpeedConstant);
+			Motors[0]->Set(-stick[LEFT]->GetY()*SpeedConstant);
+			Motors[1]->Set(-stick[LEFT]->GetY()*SpeedConstant);
+			Motors[2]->Set(-stick[RIGHT]->GetY()*SpeedConstant);
+			Motors[3]->Set(-stick[RIGHT]->GetY()*SpeedConstant);
 			if(stick[LEFT]->GetRawButton(1)&&stick[RIGHT]->GetRawButton(1))
 			{
 				SpeedConstant = 0.45;
