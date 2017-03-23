@@ -220,7 +220,7 @@ public:
 			Motors[1]->Set(stick[LEFT]->GetY()*SpeedConstant);
 			Motors[2]->Set(stick[RIGHT]->GetY()*SpeedConstant);
 			Motors[3]->Set(stick[RIGHT]->GetY()*SpeedConstant);
-			if(stick[LEFT]->GetRawButton(0)&&stick[RIGHT]->GetRawButton(0))
+			if(stick[LEFT]->GetRawButton(1)&&stick[RIGHT]->GetRawButton(1))
 			{
 				SpeedConstant = 0.45;
 			}
