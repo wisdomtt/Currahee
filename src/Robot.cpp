@@ -205,11 +205,14 @@ public:
 
 	void Autonomous()
 	{
-		auto autoSelected = chooser.GetSelected();
-		if(autoSelected == autoNameLeftPeg){this->LeftPeg();}
-		else if(autoSelected == autoNameRightPeg){this->RightPeg();}
-		else if(autoSelected == autoNameMiddlePeg){this->MiddlePeg();}
-		else{this->Default();}
+		while(IsAutonomous()&&IsEnabled())
+		{
+			auto autoSelected = chooser.GetSelected();
+			if(autoSelected == autoNameLeftPeg){this->LeftPeg();}
+			else if(autoSelected == autoNameRightPeg){this->RightPeg();}
+			else if(autoSelected == autoNameMiddlePeg){this->MiddlePeg();}
+			else{this->Default();}
+		}
 	}
 
 	void OperatorControl() override
