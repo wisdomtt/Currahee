@@ -79,9 +79,9 @@ public:
 	//BOUNDING RECT BREAKS THE VISION CODE. NEEDS A FIX
 	void Default(){
 		Motors[0]->Set(1.0);
-		Motors[1]->Set(1.0);
-		Motors[2]->Set(1.0);
-		Motors[3]->Set(1.0);
+		Motors[1]->Set(0.5);
+		Motors[2]->Set(0.5);
+		Motors[3]->Set(0.5);
 	}
 	void Debug()
 	{
@@ -102,25 +102,25 @@ public:
 	}
 	void LeftPeg(){
 
-		Motors[0]->Set(1.0);
-		Motors[1]->Set(1.0);
-		Motors[2]->Set(1.0);
-		Motors[3]->Set(1.0);
+		Motors[0]->Set(0.5);
+		Motors[1]->Set(0.5);
+		Motors[2]->Set(0.5);
+		Motors[3]->Set(0.5);
 
 		while(dbEncoders[0]->GetDistance()/3 <= (12*5+5.3)*(3/4)){}
 
-		Motors[0]->Set(0.45);
-		Motors[1]->Set(0.45);
+		Motors[0]->Set(0.35);
+		Motors[1]->Set(0.35);
 
-		Motors[2]->Set(-0.45);
-		Motors[3]->Set(-0.45);
+		Motors[2]->Set(-0.35);
+		Motors[3]->Set(-0.35);
 		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
 		while (fabs(Gyro->GetAngle()) < 60){}
 
-		Motors[0]->Set(1.0);
-		Motors[1]->Set(1.0);
-		Motors[2]->Set(1.0);
-		Motors[3]->Set(1.0);
+		Motors[0]->Set(0.5);
+		Motors[1]->Set(0.5);
+		Motors[2]->Set(0.5);
+		Motors[3]->Set(0.5);
 		//If the wheels aren't turning, then encoders won't register
 		Wait(2.0);
 		//while(dbEncoders[0]->GetDistance()/3 <= 60){}
@@ -134,25 +134,25 @@ public:
 	}
 	void RightPeg(){
 
-		Motors[0]->Set(1.0);
-		Motors[1]->Set(1.0);
-		Motors[2]->Set(1.0);
-		Motors[3]->Set(1.0);
+		Motors[0]->Set(0.5);
+		Motors[1]->Set(0.5);
+		Motors[2]->Set(0.5);
+		Motors[3]->Set(0.5);
 
 		while(dbEncoders[0]->GetDistance()/3 <= (12*5+5.3)*(3/4)){}
 
-		Motors[0]->Set(-0.45);
-		Motors[1]->Set(-0.45);
+		Motors[0]->Set(-0.35);
+		Motors[1]->Set(-0.35);
 
-		Motors[2]->Set(0.45);
-		Motors[3]->Set(0.45);
+		Motors[2]->Set(0.35);
+		Motors[3]->Set(0.35);
 		//CHECK WHICH DIRECTION THIS IS ORIENTED TOWARDS
 		while (fabs(Gyro->GetAngle()) < 60){}
 
-		Motors[0]->Set(1.0);
-		Motors[1]->Set(1.0);
-		Motors[2]->Set(1.0);
-		Motors[3]->Set(1.0);
+		Motors[0]->Set(0.5);
+		Motors[1]->Set(0.5);
+		Motors[2]->Set(0.5);
+		Motors[3]->Set(0.5);
 
 		//If the wheels aren't turning, then encoders won't register
 		Wait(2.0);
@@ -170,10 +170,10 @@ public:
 	{
 		EncoderReset();
 		GyroReset();
-		Motors[0]->Set(1.0);
-		Motors[1]->Set(1.0);
-		Motors[2]->Set(1.0);
-		Motors[3]->Set(1.0);
+		Motors[0]->Set(0.5);
+		Motors[1]->Set(0.5);
+		Motors[2]->Set(0.5);
+		Motors[3]->Set(0.5);
 
 		while(dbEncoders[0]->GetDistance()/3 <= (12*5+5.3)*(3/4)){}
 		//ensure that the gear is on the peg
@@ -233,7 +233,7 @@ public:
 			//Shooter Button
 			if(gamepad->GetRawButton(ABUTTON))//A
 			{
-				Shooter->Set(1.0);
+				Shooter->Set(0.8);
 			}
 			else
 			{
